@@ -40,16 +40,16 @@
 			let oldText = '';
 			zIndexDrag = zIndex;
 
-			save('create', textarea.outerHTML);
+			save('update', textarea.outerHTML, 'creat');
 
 			//Изменение размера оббъекта
 			textarea.addEventListener('mouseup', function(event)  {
 				if (oldWidth !== this.style.width || oldHeight !== this.style.height) {
 					if (oldWidth != parseInt(this.style.width)) {
-						save('ChangeWidth', this.style.width);
+						save('update', this.outerHTML, 'updateWidth');
 					}
 					if (oldHeight != parseInt(this.style.height)) {
-						save('ChangeHeight', this.style.height);
+						save('update', this.outerHTML, 'updateHeight');
 					}
 					oldWidth = this.style.width;
 					oldHeight = this.style.height;
@@ -60,7 +60,7 @@
 			//Изменение текста внутри объекта
 			textarea.addEventListener('change', function(event) {
 				if (oldText !== this.value) {
-					save('newText', this.value);
+					save('update', this.outerHTML, 'updateText');
 				}
 
 				event.preventDefault();
@@ -90,7 +90,7 @@
 					this.style.left = event.pageX -  window.correctionX + 'px';
 					this.style.top = event.pageY -  window.correctionY + 'px';
 					this.style.zIndex = zIndexDrag;
-					save('ChangePosition', {left: this.style.left, top: this.style.top});
+					save('update', this.outerHTML, 'Перемещене');
 				});
 
 			}
@@ -107,32 +107,16 @@
 				}
 		});
 
-function save(wathChange, change) {
+function save(wathChange, change, changes) {
 	let conditious = '';
 	switch (wathChange) {
-		case 'ChangeWidth':
-		  	conditious = 'width=' + change;
-		break;
-		
-		case 'ChangeHeight':
-		    conditious = 'height=' + change;
-		break;
-
-		case 'create':
-			conditious = 'object=' + change;
-		break;
-
-		case 'newText':
-			conditious = 'newtext=' + change;
+		case 'update':
+			conditious = 'object=' + change + '&changes=' + changes;
 		break;
 
 		case 'deleteObject':
 		console.log(change);
 			conditious = 'deleteObject=' + change;
-		break;
-
-		case 'ChangePosition':
-			console.log('Принял в switch ChangePosition = ' + change);
 		break;
 	}
 
