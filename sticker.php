@@ -20,6 +20,7 @@
 </head>
 <body><?= $textWindow ?></body>
 <script>
+window.array = <?= $array ?>;
 window.idLogin = <?= $login ?>; 
 window.id = <?= $id_max ?>;
 </script>
